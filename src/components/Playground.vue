@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NormalForm from "@/components/NormalForm";
+import NormalForm from "@/components/NormalForm.vue";
 
 export default defineComponent({
   components: {
