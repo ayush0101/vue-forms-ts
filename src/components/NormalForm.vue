@@ -3,8 +3,10 @@
     <div class="form-group">
       <label>Email address</label>
       <input type="email" class="form-control" v-model="registration.email" />
-      <small class="form-text text-muted"
-        >We'll never share your email with anyone else.</small
+      <small
+        class="form-text text-danger"
+        v-if="validationErrors.email.length > 0"
+        >{{ validationErrors.email[0] }}</small
       >
     </div>
     <div class="form-group">
@@ -92,7 +94,34 @@ export default defineComponent({
         exercise: "",
       },
       countries: ["India", "USA", "Japan", "UK", "France"],
+      validationErrors: {
+        email: [],
+        password: [],
+        example: [],
+        country: [],
+        exercise: [],
+      },
     };
+  },
+  watch: {
+    registration: {
+      handler(newValue) {
+        //validate email
+        if (!/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(newValue.email)) {
+          this.validationErrors.email.push("Not a valid email");
+        } else {
+          this.validationErrors.email = [];
+        }
+
+        //validate country
+        if (newValue.country.trim().length === 0) {
+          this.validationErrors.country.push("Select a country");
+        } else {
+          this.validationErrors.country = [];
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     onSubmit() {
